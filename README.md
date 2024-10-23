@@ -1,42 +1,160 @@
+---
+title: "SQLite Lab"
+format: html
+---
+
 ## SQLite Lab
 
-![4 17-etl-sqlite-RAW](https://github.com/nogibjj/sqlite-lab/assets/58792/b39b21b4-ccb4-4cc4-b262-7db34492c16d)
+[![CI](https://github.com/yourusername/US_birth_ETL_Project/actions/workflows/cicd.yml/badge.svg)](https://github.com/yourusername/US_birth_ETL_Project/actions/workflows/cicd.yml)
 
+# Project Overview
 
+This project focuses on the process of extracting, transforming, loading (ETL), and querying U.S. birth data. The dataset comes from a CSV file, `US_birth.csv`, which contains records of birth counts from different years, months, and days of the week. The project includes Python scripts to automate the ETL processes using Databricks, as well as unit tests using `pytest`.
 
-### Lab:
+## Project Structure
 
-* Use an AI Assistant, but use a different one then you used from a previous lab (Anthropic's Claud, Bard, Copilot, CodeWhisperer, Colab AI, etc)
-* ETL-Query:  [E] Extract a dataset from URL, [T] Transform, [L] Load into SQLite Database and [Q] Query
-For the ETL-Query lab:
-* [E] Extract a dataset from a URL like Kaggle or data.gov. JSON or CSV formats tend to work well.
-* [T] Transform the data by cleaning, filtering, enriching, etc to get it ready for analysis.
-* [L] Load the transformed data into a SQLite database table using Python's sqlite3 module.
-* [Q] Write and execute SQL queries on the SQLite database to analyze and retrieve insights from the data.
+Here’s an overview of the project structure:
 
-#### Tasks:
+```{.yaml}
+├── Dockerfile
+├── LICENSE
+├── Makefile
+├── README.qmd
+├── US_birth.csv
+├── main.py
+├── mylib
+│   ├── __init__.py
+│   ├── __pycache__
+│   ├── extract.py
+│   ├── query.py
+│   └── transform_load.py
+├── requirements.txt
+├── setup.sh
+└── test_main.py
+Requirements
+Before running the project, make sure you have the following dependencies installed:
 
-* Fork this project and get it to run
-* Make the query more useful and not a giant mess that prints to screen
-* Convert the main.py into a command-line tool that lets you run each step independantly
-* Fork this project and do the same thing for a new dataset you choose
-* Make sure your project passes lint/tests and has a built badge
-* Include an architectural diagram showing how the project works
+Python 3.9+
+requests - for fetching data from a URL.
+pytest - for unit testing.
+databricks-sql-connector - for connecting to Databricks.
+WITH birth_stats AS (
+    SELECT 
+        year,  -- Group by year to get stats per year
+        month,  -- Group by month to get stats per month
+        AVG(births) AS avg_births,  -- Average number of births per month
+        SUM(births) AS total_births  -- Total number of births per month
+    FROM default.us_birth_data  -- Your birth data table
+    GROUP BY year, month
+)
 
-#### Reflection Questions
+SELECT *
+FROM default.us_birth_data
+JOIN birth_stats
+ON default.us_birth_data.year = birth_stats.year
+AND default.us_birth_data.month = birth_stats.month
+ORDER BY birth_stats.total_births DESC;  -- Rank by total births
+Query Explanation
+CTE birth_stats: This common table expression groups births by year and month to calculate:
 
-* What challenges did you face when extracting, transforming, and loading the data? How did you overcome them?
-* What insights or new knowledge did you gain from querying the SQLite database?
-* How can SQLite and SQL help make data analysis more efficient? What are the limitations?
-* What AI assistant did you use and how did it compare to others you've tried? What are its strengths and weaknesses?
-* If you could enhance this lab, what would you add or change? What other data would be interesting to load and query?
+The average number of births for each year-month combination.
+The total number of births for each year-month combination.
+Join: The birth_stats CTE is then joined with the original us_birth_data table, enriching each record with aggregated statistics for its respective year and month.
 
-##### Challenge Exercises
+Ranking: Finally, the results are ordered by the total number of births, providing insights into which year-month combinations had the highest birth counts.
 
-* Add more transformations to the data before loading it into SQLite. Ideas: join with another dataset, aggregate by categories, normalize columns.
-* Write a query to find correlated fields in the data. Print the query results nicely formatted.
-* Create a second table in the SQLite database and write a join query with the two tables.
-* Build a simple Flask web app that runs queries on demand and displays results.
-* Containerize the application using Docker so the database and queries can be portable
+This query helps identify trends in birth counts across different years and months, providing useful insights for demographic analysis.
 
+Sample output:
+Row(year=2000, month=1, avg_births=11234.5, total_births=22469)
+Row(year=2000, month=2, avg_births=10500.7, total_births=21001)
 
+Here's how you can write the README in a .qmd (Quarto Markdown) file format. This will include the same structure as the earlier README with the necessary Markdown elements for Quarto.
+
+qmd
+Copy code
+---
+title: "SQLite Lab"
+format: html
+---
+
+## SQLite Lab
+
+[![CI](https://github.com/yourusername/US_birth_ETL_Project/actions/workflows/cicd.yml/badge.svg)](https://github.com/yourusername/US_birth_ETL_Project/actions/workflows/cicd.yml)
+
+# Project Overview
+
+This project focuses on the process of extracting, transforming, loading (ETL), and querying U.S. birth data. The dataset comes from a CSV file, `US_birth.csv`, which contains records of birth counts from different years, months, and days of the week. The project includes Python scripts to automate the ETL processes using Databricks, as well as unit tests using `pytest`.
+
+## Project Structure
+
+Here’s an overview of the project structure:
+
+```{.yaml}
+├── Dockerfile
+├── LICENSE
+├── Makefile
+├── README.qmd
+├── US_birth.csv
+├── main.py
+├── mylib
+│   ├── __init__.py
+│   ├── __pycache__
+│   ├── extract.py
+│   ├── query.py
+│   └── transform_load.py
+├── requirements.txt
+├── setup.sh
+└── test_main.py
+Requirements
+Before running the project, make sure you have the following dependencies installed:
+
+Python 3.9+
+requests - for fetching data from a URL.
+pytest - for unit testing.
+databricks-sql-connector - for connecting to Databricks.
+Complex Query
+Here’s the complex query used in this project:
+
+sql
+Copy code
+WITH birth_stats AS (
+    SELECT 
+        year,  -- Group by year to get stats per year
+        month,  -- Group by month to get stats per month
+        AVG(births) AS avg_births,  -- Average number of births per month
+        SUM(births) AS total_births  -- Total number of births per month
+    FROM default.us_birth_data  -- Your birth data table
+    GROUP BY year, month
+)
+
+SELECT *
+FROM default.us_birth_data
+JOIN birth_stats
+ON default.us_birth_data.year = birth_stats.year
+AND default.us_birth_data.month = birth_stats.month
+ORDER BY birth_stats.total_births DESC;  -- Rank by total births
+Query Explanation
+CTE birth_stats: This common table expression groups births by year and month to calculate:
+
+The average number of births for each year-month combination.
+The total number of births for each year-month combination.
+Join: The birth_stats CTE is then joined with the original us_birth_data table, enriching each record with aggregated statistics for its respective year and month.
+
+Ranking: Finally, the results are ordered by the total number of births, providing insights into which year-month combinations had the highest birth counts.
+
+This query helps identify trends in birth counts across different years and months, providing useful insights for demographic analysis.
+
+Sample output:
+{.yaml}
+Copy code
+Row(year=2000, month=1, avg_births=11234.5, total_births=22469)
+Row(year=2000, month=2, avg_births=10500.7, total_births=21001)
+Check Format and Test Errors
+Format code: make format
+Lint code: make lint
+Test code: make test
+References
+Databricks SQL Documentation
+Databricks SQL Connector for Python
+SQLite Documentation
