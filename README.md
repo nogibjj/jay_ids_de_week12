@@ -1,12 +1,4 @@
----
-title: "SQLite Lab"
-format: html
----
-
 ## SQLite Lab
-
-[![CI](https://github.com/yourusername/US_birth_ETL_Project/actions/workflows/cicd.yml/badge.svg)](https://github.com/yourusername/US_birth_ETL_Project/actions/workflows/cicd.yml)
-
 # Project Overview
 
 This project focuses on the process of extracting, transforming, loading (ETL), and querying U.S. birth data. The dataset comes from a CSV file, `US_birth.csv`, which contains records of birth counts from different years, months, and days of the week. The project includes Python scripts to automate the ETL processes using Databricks, as well as unit tests using `pytest`.
