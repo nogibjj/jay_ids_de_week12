@@ -1,9 +1,11 @@
 """Query the database"""
 
 import os
+import logging
 from dotenv import load_dotenv
 from databricks import sql
 
+# Define the complex query
 complex_query = """
 WITH birth_stats AS (
     SELECT 
@@ -23,29 +25,34 @@ AND default.us_birth_data.month = birth_stats.month
 ORDER BY birth_stats.total_births DESC;  
 """
 
-
 def query():
     """Query the database for birth stats from the US Birth Data table"""
     load_dotenv()  # Load environment variables from .env file
 
-    # Establish connection to the database using Databricks SQL connector
-    with sql.connect(
-        server_hostname=os.getenv("SERVER_HOSTNAME"),
-        http_path=os.getenv("HTTP_PATH"),
-        access_token=os.getenv("DATABRICKS_KEY"),
-    ) as connection:
+    try:
+        # Establish connection to the database using Databricks SQL connector
+        with sql.connect(
+            server_hostname=os.getenv("SERVER_HOSTNAME"),
+            http_path=os.getenv("HTTP_PATH"),
+            access_token=os.getenv("DATABRICKS_KEY"),
+        ) as connection:
 
-        with connection.cursor() as cursor:
-            # Execute the complex query
-            cursor.execute(complex_query)
-            result = cursor.fetchall()
+            with connection.cursor() as cursor:
+                # Execute the complex query
+                cursor.execute(complex_query)
+                result = cursor.fetchall()
 
-            # Print each row of the result
-            for row in result:
-                print(row)
+                # Print each row of the result
+                for row in result:
+                    print(row)
 
-    return "Query successful"
+        return "Query successful"
 
+    except Exception as e:
+        # Handle any errors during the connection or query execution
+        logging.error("Error during the database query: %s", e, exc_info=True)
+        return "Query failed"
 
 if __name__ == "__main__":
     query()
+
