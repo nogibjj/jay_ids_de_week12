@@ -1,3 +1,4 @@
+[![CI](https://github.com/jayliu1016/ids_de_mini6/actions/workflows/cicd.yml/badge.svg)](https://github.com/jayliu1016/ids_de_mini6/actions/workflows/cicd.yml)
 ## SQLite Lab
 # Project Overview
 
