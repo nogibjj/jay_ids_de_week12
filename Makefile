@@ -1,22 +1,9 @@
-install:
-	pip install --upgrade pip &&\
-		pip install -r requirements.txt
+build:
+	docker build -t my-dockerized-app .
 
-test:
-	python -m pytest -vv --cov=main --cov=mylib test_*.py
+run:
+	docker run -p 5000:5000 my-dockerized-app
 
-format:	
-	black *.py 
-
-lint:
-	#disable comment to test speed
-	#pylint --disable=R,C --ignore-patterns=test_.*?py *.py mylib/*.py
-	#ruff linting is 10-100X faster than pylint
-	ruff check *.py mylib/*.py
-
-container-lint:
-	docker run --rm -i hadolint/hadolint < Dockerfile
-
-refactor: format lint
-		
-all: install lint test format
+push:
+	docker tag my-dockerized-app my-dockerhub-username/my-dockerized-app:latest
+	docker push my-dockerhub-username/my-dockerized-app:latest
