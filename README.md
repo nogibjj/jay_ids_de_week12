@@ -44,7 +44,7 @@ http://127.0.0.1:8001/add?x=5&y=3
 ### Response:
 The result of 5.0 + 3.0 is 8.0
 
-## Future Enhancements
+### Future Enhancements
 Add support for more advanced mathematical functions (e.g., modulus, square root, exponents).
 Integrate user authentication for more secure usage.
 Provide a more user-friendly frontend.
