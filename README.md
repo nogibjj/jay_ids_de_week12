@@ -1,3 +1,4 @@
+[![Docker CI/CD](https://github.com/nogibjj/jay_ids_de_week12/actions/workflows/docker-ci.yml/badge.svg)](https://github.com/nogibjj/jay_ids_de_week12/actions/workflows/docker-ci.yml)
 # Dockerized Flask Application
 
 This project demonstrates a simple Python Flask application running in a Docker container.
