@@ -1,9 +1,49 @@
+# Python compiled files
 __pycache__/
 *.pyc
 *.pyo
-*.log
-*.sqlite3
+
+# Environment variables file
 .env
+
+# Virtual environment directories
+venv/
+env/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# System files
 .DS_Store
+Thumbs.db
+
+# IDE-specific files
 .vscode/
 .idea/
+
+# Docker-related files
+*.log
+docker-compose.override.yml
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+
+# Flask SQLite database (if used)
+*.sqlite3
+
+# Test coverage results
+.coverage
+
+# CI/CD secrets (if any)
+secrets.json
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Cache files
+.cache/
+*.egg-info/
